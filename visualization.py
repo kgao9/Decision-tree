@@ -22,7 +22,8 @@ def h_y_given_x_equal_v(frame):
     numberOfPeople = len(frame.index)
 
     if(numberOfPeople == 0):
-        return 0
+        print('here')
+        return -1000000
     
     p1 = float(len((frame.loc[frame['p_aff'] == 'democrat']).index))/numberOfPeople
     p2 = float(len((frame.loc[frame['p_aff'] == 'republican']).index))/numberOfPeople
@@ -36,7 +37,7 @@ def h_y_given_x(frame, index):
     numberOfPeople = len(frame.index)
 
     if(numberOfPeople == 0):
-        return 0
+        return -10000000
 
     yes = frame.loc[frame[index] == 'y']
     no = frame.loc[frame[index] == 'n']
@@ -44,32 +45,31 @@ def h_y_given_x(frame, index):
     prxY = float(len(yes.index)) / float(numberOfPeople)
     prxN = float(len(no.index))/float(numberOfPeople)
 
-    h1 = h_y_given_x_equal_v(frame.loc[frame[index] == 'y'])
-    h2 = h_y_given_x_equal_v(frame.loc[frame[index] == 'n'])
- 
-    if(h1 == 0 or h2 == 0 or prxY == 0 or prxN == 0):
-        return 0 
+    h1 = h_y(frame.loc[frame[index] == 'y'])
+    h2 = h_y(frame.loc[frame[index] == 'n']) 
  
     return prxY * h1 + prxN * h2
 
 def h_y(frame):
     numberOfPeople = len(frame.index)
 
-    print("initial")
-    print(float(len((frame.loc[frame['p_aff'] == 'democrat']).index)))
-    print(float(len((frame.loc[frame['p_aff'] == 'republican']).index)))
-    print("end")
-
     if(numberOfPeople == 0):
-        return 0
+        return -10000
 
     pdemo = float(len((frame.loc[frame['p_aff'] == 'democrat']).index)) / float(numberOfPeople)
     prepub = float(len((frame.loc[frame['p_aff'] == 'republican']).index)) / float(numberOfPeople)
 
-    if pdemo == 0 or prepub == 0:
+    if pdemo == 0 and prepub == 0:
         return 0
 
-    return -pdemo * math.log(pdemo, 2) + -prepub * math.log(pdemo, 2)
+    elif pdemo == 0:
+        return -prepub * math.log(prepub, 2)
+
+    elif prepub == 0:
+        return -pdemo * math.log(pdemo, 2)
+
+    else:
+        return -pdemo * math.log(pdemo, 2) + -prepub * math.log(prepub, 2)
 
 column_names.remove('p_aff')
 
@@ -84,6 +84,15 @@ values = []
 # save root
 root = data
 
+#for name in column_names:
+#    print(name)
+#    print(h_y(data) - h_y_given_x(data, name))
+
+#print("initial")
+#print(float(len((frame.loc[frame['p_aff'] == 'democrat']).index)))
+#print(float(len((frame.loc[frame['p_aff'] == 'republican']).index)))
+#print("end")
+
 #first node
 node1 = root.loc[root['physician_fee_freeze'] == 'y']
 
@@ -95,16 +104,21 @@ node1_columns.remove('physician_fee_freeze')
 #    print(h_y(node1) - h_y_given_x(node1, name))
 
 # second node
-node2 = node1.loc[node1['handicapped_infants'] == 'y']
+node2 = node1.loc[node1['adoption_of_the_budget_resolution'] == 'y']
 node2_columns = node1_columns
-node2_columns.remove('handicapped_infants')
+node2_columns.remove('adoption_of_the_budget_resolution')
 
-#for name in node2_columns:
-#    print(name)
-#    print(h_y(node2) - h_y_given_x(node2, name))
+#print("initial")
+#print(float(len((node2.loc[node2['p_aff'] == 'democrat']).index)))
+#print(float(len((node2.loc[node2['p_aff'] == 'republican']).index)))
+#print("end")
+
+for name in node2_columns:
+    print(name)
+    print(h_y(node2) - h_y_given_x(node2, name))
 
 #third node
-node3 = node1.loc[node1['handicapped_infants'] == 'n']
+node3 = node1.loc[node1['adoption_of_the_budget_resolution'] == 'n']
 node3_columns = node1_columns
 
 #for name in node3_columns:
@@ -112,44 +126,12 @@ node3_columns = node1_columns
 #    print(h_y(node3) - h_y_given_x(node3, name))
 
 #fourth node
-node4 = node3.loc[node3['water_project_cost_sharing'] == 'y']
+node4 = node3.loc[node3['anti_satellite_test_ban'] == 'y']
 node4_columns = node3_columns
-node4_columns.remove('water_project_cost_sharing')
+node4_columns.remove('anti_satellite_test_ban')
 
-#for name in node4_columns:
-#    print(name)
-#    print(h_y(node4) - h_y_given_x(node4, name))
+#print("initial")
+#print(float(len((node4.loc[node4['p_aff'] == 'democrat']).index)))
+#print(float(len((node4.loc[node4['p_aff'] == 'republican']).index)))
+#print("end")
 
-node5 = node4.loc[node4['adoption_of_the_budget_resolution'] == 'y']
-node5_columns = node4_columns
-node5_columns.remove('adoption_of_the_budget_resolution')
-
-#for name in node5_columns:
-#    print(name)
-#    print(h_y(node5) - h_y_given_x(node5, name))
-
-node6 = node5.loc[node5['el_salvador_aid'] == 'y']
-node6_columns = node5_columns
-node6_columns.remove('el_salvador_aid')
-
-#for name in node6_columns:
-#    print(name)
-#    print(h_y(node6) - h_y_given_x(node6, name))
-
-#node7 = node6.loc[node6['religous_groups_in_school'] == 'y']
-#node7_columns = node6_columns
-#node7_columns.remove('religous_groups_in_school')
-
-#for name in node7_columns:
-#    print(name)
-#    print(h_y(node7) - h_y_given_x(node7, name))
-
-node8 = node6.loc[node6['anti_satellite_test_ban'] == 'y']
-node8_columns = node6_columns
-node8_columns.remove('anti_satellite_test_ban')
-
-print node6
-
-#for name in node8_columns:
-#    print(name)
-#    print(h_y(node8) - h_y_given_x(node8, name))
