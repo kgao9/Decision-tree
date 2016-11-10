@@ -15,6 +15,8 @@ data = pandas.DataFrame.from_csv('train_house_votes_1984.csv')
 #get column names except for their affiliation
 column_names = list(data.columns.values)
 
+print(column_names)
+
 #we want to caluculate aonditional entropy
 #we'll be given a dataframe with all yes or all nos
 # what we'll do is take that dataframe and calculate H(democrat or republican)
