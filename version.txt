@@ -1,0 +1,36 @@
+Initially, I tried to do a decision tree with cars, but that had integer
+ranges which was a bit more complex than I was willing to do.
+
+I then went to politics, because the values were booleans.
+
+Here I'll outline coding methodoligies and debugging procedures that I regularly use.
+
+The most important thing is to write in terms of functions and tests. What I always do is first create a diagram or image of the data structure or workflow that I'm making. For this one, I used visualization.py to do that. I used python because it's easier to read csv files and do indexing in a few lines of code, where as java takes several more lines of code.
+
+The second most important thing is for each new custom-made object, make a toString method. You must print it out - otherwise your code is 50X harder to debug.
+Note, make sure toString is actually viable, reusable, and reader friendly - mine wasn't initially and it was a pain that I now regret.
+
+It seems when I started that, there was an issue with how I was doing entropy and I had that function wrong. Usually when that happens, get help. This time I used stack overflow, and went to lecture (I started a few days before lecture). That's the first methodology about debugging - when gathering requirements goes wrong, always ask for help: usually your conceptual knowledge is lacking.
+
+After that part, I was ready to move onto the java classes. Of course I created a politician class and parsed the .csv file. I tested it by printing out each politician. 
+
+Now here's where stuff got a bit funky. My Politician's toString method wasn't very good - as in dreadfully awful and not helpful at all. So when I was writing out the basics of the node class, I got stuck on implementing entropy. While printing out the node, it seems my entropy values weren't matching up with the ones in visualization.py. So I had to print out how I was splitting the nodes, which boolean values I was using, etc. But I got hopelessly lost in the code. It was at that point that I decided to print out each politician individually.
+
+Now here are the fundamentals of debugging. There are two fundamental parts: visualization and printing to console. 
+
+Visualization means drawing out the concept of what you are doing and that means really knowing and understanding the field. Here the field is just understanding what a decision tree does and what it looks like.
+
+The second is printing to console. Of course there are hot debugging fixes where you point at something and say I know what I'm doing wrong. These take about 1-2 minutes to fix. Those are rare, and require true experience. The second step is what I do on average. Create break points and print every object to console so then you know how they change. This allows you to see that what you think is happening actually is happening. Actual theorists would call this concenptual model following the manifest model or something like that... Oh the third step, which may be important, is when you're stuck for more than an hour - ask for help. There's no point in wasting your time and the time of your peers/coworkers staring at a computer when someone can help.
+
+So for my example, I used the second step. I went through my code and I printed everything out. It was at that moment that I found out politician's toString method printed out a bunch of junk that wasn't easily readable. I changed the format and saw that what I thought would be all democrats who said yes to this bill had some democrats who said no. From there, I deduced it was a typo of the variable name. I fixed it and it was ready to go.
+
+I then printed out my decision tree, implemented it for scanning, and that was it.
+
+So a quick recap - always visualize what you are tying to do and have it in hand. If you lose sight of the concept, it's going to be extremely rough and management typically don't like that. Second, always debug using these three steps. It saves hours of time.
+
+the last thing I will say is to always implement code using this git model.
+For each new feature/purpose, use this git model:
+
+get feature request -> create new branch -> complete(including test) feature on branch -> merge to develop -> complete feature on develop -> Make sure the version is stable -> merge to master -> repeat
+
+Always split code up into small pieces that are easy to test. For this small project, I split the code into visualization, scanning in politicians, getting the best question, printing the tree, and scanning in test features. This took me four days to implement.
