@@ -13,15 +13,24 @@ import java.io.*;
 public class Tree
 {
     /**
-    * The purpose of this class is to get the best question
-    * @param questions - array list of questions
-    * @param examples - array list of cars
-    * @return the best question to ask
+    * The purpose of this class is to print out the decision tree
+    * @param node
+    * no return
     */
 
-    public static String bestQuestion(ArrayList <String> questions, ArrayList <Politician> examples)
+    public static void printTree(Node n)
     {
-        return "";
+        System.out.println(n.toString());
+
+        ArrayList <Node> succ = n.getSucc();
+
+        if(succ.size() != 0)
+        {
+            for(Node successor: succ)
+            {
+                printTree(successor);
+            }
+        }
     }
 
     public static void main(String [] args) throws FileNotFoundException
@@ -96,6 +105,7 @@ public class Tree
 
         //create the decision tree
         Node root = new Node(dataset, new ArrayList <String> ());
-        System.out.println(root.toString());
+        //System.out.println(root.toString());
+        printTree(root);
     }
 }
