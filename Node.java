@@ -245,4 +245,43 @@ class Node
 
            return successors;
        }
+
+       public String majority()
+       {
+            //see if a split is needed
+           //if not, this is a leaf node
+           ArrayList <Politician> republicans = new ArrayList <Politician> ();
+           ArrayList <Politician> democrat = new ArrayList <Politician> ();
+
+           //divide based on political affiliation
+           for(int i = 0; i < dataset.size(); i++)
+           {
+               if(dataset.get(i).getP_aff().equals("democrat"))
+                   democrat.add(dataset.get(i));
+
+               else
+                   republicans.add(dataset.get(i));
+           }
+
+           if(republicans.size() > democrat.size())
+           {
+               return "republican";
+           }
+           
+           else
+               return "democrat";
+       }
+
+       public Node scan(testPolitician test)
+       {
+           String key = bestQuestion();
+
+           ArrayList <Node> successors = getSucc();
+
+           if(test.getFeatures().get(key))
+               return successors.get(0);
+
+           else
+               return successors.get(1);          
+       }
 }

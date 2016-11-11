@@ -33,6 +33,19 @@ public class Tree
         }
     }
 
+    public static String get_p_aff(testPolitician test, Node n)
+    {
+        if(n.getSucc().size() == 0)
+        {
+            return n.majority();
+        }
+
+        else
+        {
+            return get_p_aff(test, n.scan(test));
+        }
+    }
+
     public static void main(String [] args) throws FileNotFoundException
     {
         //prepare to read in the file
@@ -106,6 +119,51 @@ public class Tree
         //create the decision tree
         Node root = new Node(dataset, new ArrayList <String> ());
         //System.out.println(root.toString());
-        printTree(root);
+        //printTree(root);
+
+        //prepare to read in the file
+        File file1 = new File("test.csv");
+
+        //create new scanner
+        Scanner scanner1 = new Scanner(file1);
+
+         //get all feature data
+        while(scanner1.hasNextLine())
+        {
+            //get line
+            String getLine = scanner1.nextLine();
+
+            String [] attr = getLine.split(",");
+
+            //invalid politician
+            if(attr.length != headersList.size() + 1)
+            {
+                System.out.println("here");
+                System.out.println("invalid file format found... Closing");
+                System.exit(0);
+            }
+
+            boolean [] features = new boolean [headersList.size()];
+
+            //get name
+            String name = attr[0];
+
+            for(int i = 0; i < features.length; i++)
+            {
+                if(!attr[i+1].equals('y') && attr[i+1].equals('n'))
+                {
+                    System.out.println("invalid file format found... Closing");
+                    System.exit(0);
+                }
+
+                features[i] = attr[i + 1].equals("y");
+            }
+
+            testPolitician myPol = new testPolitician(headersList, features, name);
+
+            System.out.println(get_p_aff(myPol,root));
+        }
+
+        //printTree(root);
     }
 }
