@@ -40,11 +40,37 @@ class Politician
         for(int i = 0; i < keys.size(); i++)
         {
              String key = keys.get(i);
-             String feature = String.valueOf(features.get(key));
+             boolean feature = features.get(key);
 
-             returnString += ", " + key + " " + feature;
+             if(feature)
+                 returnString += " y";
+             
+             else
+                 returnString += " n";
+
+             //returnString += ", " + key + " " + feature;
         } 
 
         return returnString;
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public String getP_aff()
+    {
+        return this.p_aff;
+    }
+
+    public Hashtable <String, Boolean> getFeatures()
+    {
+        return this.features;
+    }
+
+    public ArrayList <String> getKeys()
+    {
+        return this.keys;
     }
 }

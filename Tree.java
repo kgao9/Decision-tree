@@ -47,11 +47,12 @@ public class Tree
         for(String header: headers)
         {
             headersList.add(header);
-            System.out.println(header);
         }
 
         headersList.remove("Name");
         headersList.remove("p_aff");
+
+        ArrayList <Politician> dataset = new ArrayList <Politician> ();
 
         //get all feature data
         while(scanner.hasNextLine())
@@ -90,7 +91,11 @@ public class Tree
 
             Politician myPol = new Politician(headersList, features, p_aff, name);
  
-            System.out.println(myPol.toString());
+            dataset.add(myPol);
         }
+
+        //create the decision tree
+        Node root = new Node(dataset, new ArrayList <String> ());
+        System.out.println(root.toString());
     }
 }
